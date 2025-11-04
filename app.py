@@ -291,6 +291,37 @@ for name, coords in bridges.items():
         ),
     ).add_to(m)
 
+ #--- Closed Polyline / Polygon Zone ---
+polygon_coords = [
+    [20.88924288323013, 105.8807155104714],
+    [20.88583495414192, 105.8818686437095],
+    [20.88738429614779, 105.8974898640256],
+    [20.89641671886349, 105.913947716764],
+    [20.90035613463641, 105.9544369524273],
+    [20.92159875555566, 105.994282323926],
+    [20.94664729843689, 106.0109387700173],
+    [20.94914339210757, 106.0118601790391],
+    [20.95031390742827, 106.0098936279089],
+    [20.92451905997301, 105.9930600011564],
+    [20.91473989978944, 105.9793447796102],
+    [20.90392222390733, 105.9541182997613],
+    [20.90217789932237, 105.924652122508],
+    [20.89749325346639, 105.9096162234453],
+    [20.89058011154443, 105.8964331151194],
+    [20.88924288323013, 105.8807155104714],
+]
+
+# Draw as filled polygon
+folium.Polygon(
+    locations=polygon_coords,
+    color="red",
+    weight=2,
+    fill=True,
+    fill_color="red",
+    fill_opacity=0.35,
+    tooltip="CC1 Area",
+).add_to(m)
+
 # --- Define color by year ---
 # def get_color(year: int) -> str:
 #     if year == "Viet Nam":
@@ -322,7 +353,7 @@ for _, row in df.iterrows():
                 font-weight:bold;
                 color:white;
                 text-align:center;
-                transform:translate(-30%, -30%);
+                transform:translate(-30%, -0%);
             ">{row['capacity']}</div>
             """
         ),
