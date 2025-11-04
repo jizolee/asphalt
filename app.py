@@ -322,6 +322,49 @@ folium.Polygon(
     tooltip="CC1 Area",
 ).add_to(m)
 
+# --- Closed Polygons (2 zones) ---
+
+# Polygon 1
+polygon1_coords = [
+    [21.16731314767603, 105.6986203736546],
+    [21.16516092160808, 105.7033197363895],
+    [21.18378683428685, 105.7112544681083],
+    [21.23026883003332, 105.7520319412219],
+    [21.23226898307661, 105.7458378107456],
+    [21.18745575944248, 105.7062926063253],
+    [21.16731314767603, 105.6986203736546],
+]
+
+folium.Polygon(
+    locations=polygon1_coords,
+    color="red",
+    weight=2,
+    fill=True,
+    fill_color="red",
+    fill_opacity=0.35,
+    tooltip="CC1 Area",
+).add_to(m)
+
+
+# Polygon 2
+polygon2_coords = [
+    [21.15282983020117, 106.0590917848442],
+    [21.14917315303276, 106.0559605292514],
+    [21.13611320443047, 106.0857134860781],
+    [21.14139713599917, 106.0861306103758],
+    [21.15282983020117, 106.0590917848442],
+]
+
+folium.Polygon(
+    locations=polygon2_coords,
+    color="red",
+    weight=2,
+    fill=True,
+    fill_color="red",
+    fill_opacity=0.35,
+    tooltip="CC1 Area",
+).add_to(m)
+
 # --- Define color by year ---
 # def get_color(year: int) -> str:
 #     if year == "Viet Nam":
