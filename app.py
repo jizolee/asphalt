@@ -46,7 +46,7 @@ SHEET_ID = "1dzA9JJYzI_i9E4NwEGM9mnZlY8s6xf6RQHzhMHTx4y4"  # TODO: replace with 
 SHEET_NAME = "north"  # Change this to match your Google Sheet tab name
 CSV_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:csv&sheet={SHEET_NAME}"
 
-@st.cache_data(ttl=300)
+@st.cache_data(ttl=30)
 def load_data_from_gsheet(url):
     """Load data from a public Google Sheet shared as CSV."""
     return pd.read_csv(url)
@@ -105,6 +105,7 @@ m = folium.Map(location=[21.030382, 105.852414], zoom_start=10)
 
 # --- Add 30km & 60km semi-transparent filled radius zones around Hanoi ---
 center_lat, center_lon = 21.030382, 105.852414
+center_south_lat, center_south_lon = 10.816446710933224, 106.65637042962993
 # --- Draw Polyline for Route ---
 polyline_coords = [
     (21.24199742183946, 105.7596070304483),
@@ -223,6 +224,8 @@ folium.PolyLine(
     tooltip="Ring Road 5",
 ).add_to(m)
 
+#North Center
+
 folium.Circle(
     location=[center_lat, center_lon],
     radius=30000,  # 30 km
@@ -241,6 +244,30 @@ folium.Circle(
 
 folium.Marker(
     [center_lat, center_lon],
+    popup="Center Point",
+    icon=folium.Icon(color="red", icon="star"),
+).add_to(m)
+
+#South Center
+
+folium.Circle(
+    location=[center_south_lat, center_south_lon],
+    radius=30000,  # 30 km
+    color="orange",
+    weight=2,
+    tooltip="30 km radius",
+).add_to(m)
+
+folium.Circle(
+    location=[center_south_lat, center_south_lon],
+    radius=60000,  # 60 km
+    color="purple",
+    weight=2,
+    tooltip="60 km radius",
+).add_to(m)
+
+folium.Marker(
+    [center_south_lat, center_south_lon],
     popup="Center Point",
     icon=folium.Icon(color="red", icon="star"),
 ).add_to(m)
