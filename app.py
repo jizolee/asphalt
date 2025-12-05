@@ -28,6 +28,9 @@ st.markdown(
         <div style="display:flex; align-items:center; gap:6px;">
             <div style="width:14px; height:14px; border-radius:50%; background-color:blue;"></div>
             <span>Korea</span>
+        </div> <div style="display:flex; align-items:center; gap:6px;">
+            <div style="width:14px; height:14px; border-radius:50%; background-color:purple;"></div>
+            <span>China</span>
         </div>
         <div style="display:flex; align-items:center; gap:6px;">
             <div style="width:14px; height:14px; border-radius:50%; background-color:grey;"></div>
@@ -78,6 +81,8 @@ def get_color(supplier: str) -> str:
         return "red"
     elif "Han Quoc" in supplier:
         return "blue"
+    elif "Trung Quoc" in supplier:
+        return "purple"
     return "grey"
 # --- Sidebar Toggle to Show/Hide Plant Labels ---
 show_labels = st.sidebar.toggle("Show Plant Names", value=True)
@@ -101,7 +106,7 @@ info_placeholder.info("Click a circle on the map to view plant details.")
 
 
 # --- Create Map ---
-m = folium.Map(location=[21.030382, 105.852414], zoom_start=10)
+m = folium.Map(location=[10.816446710933224, 106.65637042962993], zoom_start=10)
 
 # --- Add 30km & 60km semi-transparent filled radius zones around Hanoi ---
 center_lat, center_lon = 21.030382, 105.852414
