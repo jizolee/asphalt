@@ -4,6 +4,7 @@ import folium
 from streamlit_folium import st_folium
 import pandas as pd
 import re
+import numpy as np
 
 # --- Streamlit Page Setup ---
 st.set_page_config(page_title="🏭Asphalt Batching Plants - Vietnam", layout="wide")
@@ -483,24 +484,47 @@ st.markdown(
 
 st_data = st_folium(m, width=None, height=800)
 
-
-# --- Update plant info when clicked ---
+# --- 1. Update plant info when clicked ---
 if st_data and st_data.get("last_object_clicked"):
     clicked = st_data["last_object_clicked"]
     lat, lon = clicked["lat"], clicked["lng"]
     
-    # find nearest plant
-    plant = df.iloc[((df["lat"] - lat)**2 + (df["lon"] - lon)**2).idxmin()]
-    supplier_color = "#067432" if "Nhat Ban" in plant["supplier"] else "#ffe0b2"
-    info_placeholder.html(
+    # Find nearest plant based on Euclidean distance
+    # We use df.loc to ensure we get the specific row object
+    dist = (df["lat"] - lat)**2 + (df["lon"] - lon)**2
+    plant = df.loc[dist.idxmin()]
+
+    # --- 2. Safe Data Formatting ---
+    # Determine Supplier Color
+    #supplier_color = "#067432" if "Nhat Ban" in str(plant["supplier"]) else "#ffe0b2"
+    
+    # Handle 'Product' Display Logic safely
+    # We check if the value is NaN. If so, show text; otherwise, format the number.
+    raw_product = plant['product']
+    if pd.isna(raw_product):
+        product_display = "To be invested"
+    else:
+        # Formats as 1,000 T/year
+        product_display = f"{int(raw_product):,} T/year"
+
+    # --- 3. Render HTML ---
+    info_placeholder.markdown(
         f"""
-        🏭<b> {plant['name']}</b><br>
-        - Supplier: {plant['supplier']}<br>
-        - Capacity: <span style="background-color:#F8D7DA;color:#B22222;padding:4px 10px;border-radius:15px;font-weight:600;font-size:12pt;">{plant['capacity']:,} T/h 
-    </span><br>  
-        - Year: {plant['year']}<br>  
-        - Product: {int(plant['product']):,}   T/year<br>
-        - Note: {plant['note']}
-        """
+        <div style="font-family: sans-serif;">
+            <h3>🏭 {plant['name']}</h3>
+            <ul>
+                <li><b>Supplier:</b> {plant['supplier']}</li>
+                <li><b>Capacity:</b> 
+                    <span style="background-color:#F8D7DA; color:#B22222; padding:2px 8px; border-radius:10px; font-weight:bold;">
+                        {plant['capacity']:,} T/h
+                    </span>
+                </li>
+                <li><b>Year:</b> {plant['year']}</li>
+                <li><b>Product:</b> {product_display}</li>
+                <li><b>Note:</b> {plant['note']}</li>
+            </ul>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
