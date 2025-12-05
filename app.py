@@ -49,7 +49,7 @@ SHEET_ID = "1dzA9JJYzI_i9E4NwEGM9mnZlY8s6xf6RQHzhMHTx4y4"  # TODO: replace with 
 SHEET_NAME = "north"  # Change this to match your Google Sheet tab name
 CSV_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:csv&sheet={SHEET_NAME}"
 
-@st.cache_data(ttl=30)
+@st.cache_data(ttl=3000)
 def load_data_from_gsheet(url):
     """Load data from a public Google Sheet shared as CSV."""
     return pd.read_csv(url)
