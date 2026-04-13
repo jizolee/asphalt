@@ -76,6 +76,7 @@ if st.sidebar.button("🔄 Refresh Data"):
 
 # --- Define Color by Supplier ---
 def get_color(supplier: str) -> str:
+    supplier = str(supplier) if pd.notna(supplier) else ""
     if "Viet Nam" in supplier:
         return "green"
     elif "Nhat Ban" in supplier:
